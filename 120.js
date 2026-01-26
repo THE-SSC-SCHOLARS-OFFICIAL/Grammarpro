@@ -1,4 +1,4 @@
-const grammarRules_Batch1 = [
+const grammarRules = [
   {
     id: 1,
     ruleNo: "RULE 01",
