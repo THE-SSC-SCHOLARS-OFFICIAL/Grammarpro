@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grammar Mastery - Ultimate</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --secondary: #ec4899;
+            --bg-body: #f8fafc;
+            --text-main: #1e293b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --radius: 12px;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* --- HEADER --- */
+        header {
+            background: white;
+            padding: 15px 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-controls { display: flex; gap: 15px; align-items: center; }
+
+        .icon-btn {
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #64748b;
+            padding: 8px;
+            border-radius: 50%;
+            transition: 0.2s;
+            background: #f1f5f9;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .icon-btn:hover { background: var(--primary); color: white; }
+        .btn-hidden { display: none !important; }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-switch {
+            background: #e2e8f0;
+            padding: 4px;
+            border-radius: 8px;
+            display: flex;
+        }
+
+        .tab-btn {
+            padding: 6px 15px;
+            border: none;
+            background: transparent;
+            font-weight: 600;
+            color: #64748b;
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+        .tab-btn.active { background: white; color: var(--primary); box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+
+        /* --- CONTAINERS --- */
+        .main-container { max-width: 1200px; margin: 20px auto; padding: 0 15px; min-height: 80vh; }
+        .full-view { display: none; background: white; position: fixed; top: 70px; left: 0; right: 0; bottom: 0; z-index: 500; overflow-y: auto; padding: 40px 20px; }
+        .content-wrapper { max-width: 800px; margin: 0 auto; }
+
+        /* --- GRID & CARDS --- */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+
+        .card {
+            background: white; border-radius: var(--radius); padding: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02); border: 1px solid #e2e8f0;
+            cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.08); border-color: var(--primary); }
+        .card-tag { font-size: 0.75rem; font-weight: 700; background: #e0e7ff; color: var(--primary); padding: 4px 8px; border-radius: 4px; display: inline-block; margin-bottom: 10px; }
+        .card h3 { margin: 0 0 10px 0; font-size: 1.1rem; color: var(--text-main); }
+        .card p { color: #64748b; font-size: 0.9rem; margin: 0; line-height: 1.5; }
+
+        /* --- TEST INTERFACE CSS --- */
+        .test-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #f1f5f9;
+        }
+        .timer-box { font-size: 1.2rem; font-weight: 700; color: var(--text-main); background: #f1f5f9; padding: 8px 15px; border-radius: 8px; }
+        
+        .question-box { margin-bottom: 30px; }
+        .q-text { font-size: 1.2rem; font-weight: 600; margin-bottom: 20px; line-height: 1.6; }
+        
+        .option-card {
+            padding: 15px 20px; margin-bottom: 10px; border: 2px solid #e2e8f0;
+            border-radius: 10px; cursor: pointer; transition: 0.2s; font-size: 1rem;
+        }
+        .option-card:hover { border-color: var(--primary); background: #f8fafc; }
+        .option-card.selected { border-color: var(--primary); background: #eef2ff; color: var(--primary); font-weight: 600; }
+
+        .test-footer { display: flex; justify-content: space-between; margin-top: 30px; }
+        .btn { padding: 12px 25px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; font-size: 1rem; transition: 0.2s; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: #4338ca; }
+        .btn-secondary { background: #e2e8f0; color: #475569; }
+        .btn-success { background: var(--success); color: white; }
+
+        /* --- RESULT SECTION CSS --- */
+        .result-summary { text-align: center; margin-bottom: 30px; padding: 30px; background: #f8fafc; border-radius: 16px; }
+        .score-big { font-size: 3rem; font-weight: 800; color: var(--primary); }
+        .analysis-card { border-left: 4px solid #ccc; padding: 20px; margin-bottom: 15px; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .analysis-card.correct { border-left-color: var(--success); }
+        .analysis-card.wrong { border-left-color: var(--danger); }
+        .badge-res { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; padding: 2px 6px; border-radius: 4px; margin-bottom: 5px; display: inline-block; }
+        .bg-correct { background: #d1fae5; color: var(--success); }
+        .bg-wrong { background: #fee2e2; color: var(--danger); }
+        .bg-skip { background: #fef3c7; color: #d97706; }
+
+        /* --- UTILS --- */
+        .hidden { display: none !important; }
+        .formatted-text { font-family: 'Merriweather', serif; font-size: 1.1rem; line-height: 1.8; color: #334155; }
+        .hl-purple { background: #f3e8ff; color: #6b21a8; padding: 0 6px; border-radius: 4px; font-weight: 700; font-family: 'Poppins', sans-serif; border: 1px solid #d8b4fe; }
+        
+        /* Formatter Boxes */
+        .box-example { background: #f8fafc; border-left: 4px solid #94a3b8; padding: 20px; margin: 20px 0; border-radius: 0 8px 8px 0; }
+        .box-note { background: #fffbeb; border: 1px solid #fcd34d; color: #92400e; padding: 15px; border-radius: 8px; margin: 20px 0; display: flex; gap: 10px; }
+        .status-row { display: flex; gap: 10px; margin-bottom: 8px; align-items: baseline; }
+        .text-correct { color: #065f46; font-weight: 600; }
+        .text-wrong { color: #991b1b; text-decoration: line-through; opacity: 0.7; }
+
+
+        /* --- READER: BOTTOM ACTION BAR + TRANSITIONS --- */
+        #view-reader { padding-bottom: 0; }
+        .reader-stage { overflow: hidden; }
+        .reader-body { will-change: transform, opacity, filter; }
+        .reader-body.out-left  { animation: outLeft  .28s cubic-bezier(.4,0,1,1) forwards; }
+        .reader-body.out-right { animation: outRight .28s cubic-bezier(.4,0,1,1) forwards; }
+        .reader-body.in-right  { animation: inRight  .45s cubic-bezier(.16,1,.3,1) both; }
+        .reader-body.in-left   { animation: inLeft   .45s cubic-bezier(.16,1,.3,1) both; }
+        @keyframes outLeft  { to { opacity:0; transform: translateX(-60px) scale(.97); filter: blur(6px); } }
+        @keyframes outRight { to { opacity:0; transform: translateX(60px)  scale(.97); filter: blur(6px); } }
+        @keyframes inRight  { from { opacity:0; transform: translateX(70px)  scale(.97); filter: blur(6px); } to { opacity:1; transform:none; filter:none; } }
+        @keyframes inLeft   { from { opacity:0; transform: translateX(-70px) scale(.97); filter: blur(6px); } to { opacity:1; transform:none; filter:none; } }
+
+        .reader-actions {
+            position: sticky; bottom: 0; z-index: 5;
+            display: flex; gap: 12px; justify-content: space-between;
+            margin: 30px -20px 0; padding: 14px 20px calc(14px + env(safe-area-inset-bottom, 0px));
+            background: rgba(255,255,255,.85);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            border-top: 1px solid #e2e8f0;
+        }
+        .reader-actions .btn {
+            flex: 1; max-width: 380px; display: flex; align-items: center; justify-content: center; gap: 8px;
+            position: relative; overflow: hidden; font-family: inherit;
+            transition: transform .15s ease, box-shadow .25s ease, filter .2s ease;
+        }
+        .reader-actions .btn:active { transform: scale(.95); }
+        .btn-quiz { background: linear-gradient(135deg, #10b981, #059669); color: #fff; box-shadow: 0 6px 16px rgba(16,185,129,.35); }
+        .btn-quiz:hover { box-shadow: 0 10px 22px rgba(16,185,129,.45); filter: brightness(1.05); }
+        .btn-next { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: #fff; box-shadow: 0 6px 16px rgba(79,70,229,.35); }
+        .btn-next:hover { box-shadow: 0 10px 22px rgba(79,70,229,.45); filter: brightness(1.05); }
+        .btn-next:hover i { transform: translateX(4px); }
+        .btn-next i, .btn-quiz i { transition: transform .2s ease; }
+        .btn-next:disabled { opacity: .45; cursor: not-allowed; box-shadow: none; filter: grayscale(.4); }
+        .reader-actions .btn::after {
+            content: ""; position: absolute; top: 0; left: -120%; width: 60%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent);
+            transform: skewX(-20deg); transition: left .6s ease;
+        }
+        .reader-actions .btn:not(:disabled):hover::after { left: 140%; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-controls">
+        <button id="btn-back" class="icon-btn btn-hidden" onclick="goHome()" title="Back">
+            <i class="ri-arrow-left-line"></i>
+        </button>
+        <button id="btn-home" class="icon-btn" onclick="goHome()" title="Home">
+            <i class="ri-home-4-line"></i>
+        </button>
+        <div class="logo">GrammarPro</div>
+    </div>
+    <div class="nav-switch" id="nav-tabs">
+        <button class="tab-btn active" onclick="setMode('theory')">Theory</button>
+        <button class="tab-btn" onclick="setMode('practice')">Practice</button>
+    </div>
+</header>
+
+<div id="view-dashboard" class="main-container">
+    <div id="grid-theory" class="grid"></div>
+    <div id="grid-practice" class="grid hidden"></div>
+</div>
+
+<div id="view-reader" class="full-view">
+    <div class="content-wrapper">
+        <div class="reader-stage">
+            <div id="reader-body" class="reader-body">
+                <h1 id="reader-title" style="margin-bottom:20px; color:var(--primary);">Title</h1>
+                <div id="reader-content"></div>
+            </div>
+        </div>
+        <div class="reader-actions">
+            <button class="btn btn-quiz" id="btn-reader-quiz" onclick="readerQuiz()"><i class="ri-questionnaire-line"></i> Quiz</button>
+            <button class="btn btn-next" id="btn-reader-next" onclick="readerNext()">Next <i class="ri-arrow-right-line"></i></button>
+        </div>
+    </div>
+</div>
+
+<div id="view-test" class="full-view" style="background: #f8fafc;">
+    <div class="content-wrapper">
+        <div class="test-header">
+            <div>
+                <h2 id="test-title" style="margin:0;">Rule Test</h2>
+                <span style="color:#64748b; font-size:0.9rem;">Question <span id="q-current">1</span> of 10</span>
+            </div>
+            <div class="timer-box" id="timer">07:00</div>
+        </div>
+
+        <div class="question-box">
+            <div id="q-text" class="q-text">Loading...</div>
+            <div id="q-options"></div>
+        </div>
+
+        <div class="test-footer">
+            <button class="btn btn-secondary" id="btn-prev" onclick="changeQuestion(-1)">Previous</button>
+            <button class="btn btn-primary" id="btn-next" onclick="changeQuestion(1)">Save & Next</button>
+            <button class="btn btn-success hidden" id="btn-submit" onclick="submitTest()">Submit Test</button>
+        </div>
+    </div>
+</div>
+
+<div id="view-result" class="full-view">
+    <div class="content-wrapper">
+        <div class="result-summary">
+            <h2>Test Result</h2>
+            <div class="score-big"><span id="res-score">0</span> / 20</div>
+            <p>Accuracy: <span id="res-accuracy">0</span>%</p>
+            <button class="btn btn-secondary" onclick="goHome()">Back to Dashboard</button>
+        </div>
+        <div id="res-analysis"></div>
+    </div>
+</div>
+
+<script src="120.js"></script>
+<script src="questionsbank.js"></script>
+
+<script>
+    // --- STATE ---
+    let currentMode = 'theory';
+    let currentTestId = null;
+    let currentQIndex = 0;
+    let userAnswers = {};
+    let timerInterval;
+    let timeLeft = 420; // 7 mins
+
+    window.onload = function() {
+        if(typeof grammarRules === 'undefined' || typeof questionBank === 'undefined') {
+            alert("Error: Data files not loaded."); return;
+        }
+        renderDashboard();
+    };
+
+    // --- NAVIGATION ---
+    function setMode(mode) {
+        currentMode = mode;
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        const btns = document.querySelectorAll('.tab-btn');
+        if(mode === 'theory') btns[0].classList.add('active'); else btns[1].classList.add('active');
+
+        if(mode === 'theory') {
+            document.getElementById('grid-theory').classList.remove('hidden');
+            document.getElementById('grid-practice').classList.add('hidden');
+        } else {
+            document.getElementById('grid-theory').classList.add('hidden');
+            document.getElementById('grid-practice').classList.remove('hidden');
+        }
+    }
+
+    function goHome() {
+        clearInterval(timerInterval);
+        document.querySelectorAll('.full-view').forEach(v => v.style.display = 'none');
+        document.getElementById('view-dashboard').style.display = 'block';
+        document.getElementById('btn-back').classList.add('btn-hidden');
+        document.getElementById('nav-tabs').style.visibility = 'visible';
+    }
+
+    // --- RENDER DASHBOARD ---
+    function renderDashboard() {
+        const tGrid = document.getElementById('grid-theory');
+        const pGrid = document.getElementById('grid-practice');
+
+        grammarRules.forEach(rule => {
+            // Theory Card
+            const tCard = document.createElement('div');
+            tCard.className = 'card';
+            tCard.innerHTML = `
+                <span class="card-tag">RULE ${rule.id}</span>
+                <h3>${rule.title}</h3>
+                <p>${rule.content.replace(/\*/g, '').substring(0, 80)}...</p>
+            `;
+            tCard.onclick = () => openReader(rule);
+            tGrid.appendChild(tCard);
+
+            // Practice Card
+            const pCard = document.createElement('div');
+            pCard.className = 'card';
+            pCard.style.borderLeft = "4px solid var(--success)";
+            pCard.innerHTML = `
+                <span class="card-tag" style="background:#d1fae5; color:var(--success)">TEST ${rule.id}</span>
+                <h3>Test: ${rule.title}</h3>
+                <p><i class="ri-time-line"></i> 7 Mins • 10 Questions</p>
+            `;
+            // FIX: Calling startTest instead of alert
+            pCard.onclick = () => startTest(rule.id);
+            pGrid.appendChild(pCard);
+        });
+    }
+
+    // --- READER LOGIC ---
+    let currentRuleIdx = 0;
+    let readerBusy = false;
+
+    function renderRule(rule) {
+        document.getElementById('reader-title').innerText = `${rule.ruleNo}: ${rule.title}`;
+        document.getElementById('reader-content').innerHTML = `
+            <div class="formatted-text">${formatText(rule.content)}</div>
+        `;
+        const isLast = currentRuleIdx >= grammarRules.length - 1;
+        const nextBtn = document.getElementById('btn-reader-next');
+        nextBtn.disabled = isLast;
+        nextBtn.innerHTML = isLast ? 'Last Rule' : 'Next <i class="ri-arrow-right-line"></i>';
+    }
+
+    function openReader(rule) {
+        currentRuleIdx = grammarRules.indexOf(rule);
+        document.getElementById('view-dashboard').style.display = 'none';
+        document.getElementById('nav-tabs').style.visibility = 'hidden';
+        const view = document.getElementById('view-reader');
+        view.style.display = 'block';
+        view.scrollTop = 0;
+        document.getElementById('btn-back').classList.remove('btn-hidden');
+
+        renderRule(rule);
+        const body = document.getElementById('reader-body');
+        body.className = 'reader-body';
+        void body.offsetWidth;
+        body.classList.add('in-right');
+    }
+
+    function readerNext() {
+        if (readerBusy || currentRuleIdx >= grammarRules.length - 1) return;
+        readerBusy = true;
+        const body = document.getElementById('reader-body');
+        const view = document.getElementById('view-reader');
+
+        body.className = 'reader-body out-left';
+        setTimeout(() => {
+            currentRuleIdx++;
+            renderRule(grammarRules[currentRuleIdx]);
+            view.scrollTo({ top: 0 });
+            body.className = 'reader-body';
+            void body.offsetWidth;
+            body.classList.add('in-right');
+            setTimeout(() => { readerBusy = false; }, 450);
+        }, 280);
+    }
+
+    function readerQuiz() {
+        const rule = grammarRules[currentRuleIdx];
+        if (!rule.id || !questionBank[rule.id]) { alert("Questions not added yet!"); return; }
+        document.getElementById('view-reader').style.display = 'none';
+        startTest(rule.id);
+    }
+
+    function formatText(text) {
+        let html = '';
+        let lines = text.split('\n');
+        let inBox = false, boxBuffer = '';
+
+        lines.forEach(line => {
+            line = line.trim();
+            if(!line) return;
+
+            if(line.startsWith('*NOTE') || line.startsWith('NOTE:')) {
+                if(inBox) { html += `<div class="box-example">${boxBuffer}</div>`; inBox=false; boxBuffer=''; }
+                html += `<div class="box-note"><i class="ri-lightbulb-flash-line"></i><div>${line.replace(/^\*?NOTE:?/, '')}</div></div>`;
+                return;
+            }
+
+            if(line.includes('[Correct]') || line.includes('[Incorrect]')) {
+                if(!inBox) inBox = true;
+                let isCor = line.includes('[Correct]');
+                boxBuffer += `<div class="status-row"><i class="${isCor ? 'ri-check-line icon-check' : 'ri-close-line icon-cross'}"></i><span class="${isCor ? 'text-correct' : 'text-wrong'}">${line.replace(/\[(In)?Correct\]/g,'').replace(/"([^"]+)"/g, '<span class="hl-purple">$1</span>')}</span></div>`;
+                return;
+            }
+
+            if(inBox) { html += `<div class="box-example">${boxBuffer}</div>`; inBox=false; boxBuffer=''; }
+            
+            if(line.includes('|')) {
+                html += `<div style="background:#f1f5f9; padding:10px; margin:5px 0; font-family:monospace;">${line.replace(/\|/g, ' | ')}</div>`;
+            } else {
+                html += `<p>${line.replace(/"([^"]+)"/g, '<span class="hl-purple">$1</span>')}</p>`;
+            }
+        });
+        if(inBox) html += `<div class="box-example">${boxBuffer}</div>`;
+        return html;
+    }
+
+    // --- TEST ENGINE ---
+    function startTest(ruleId) {
+        if(!questionBank[ruleId]) { alert("Questions not added yet!"); return; }
+        
+        currentTestId = ruleId;
+        currentQIndex = 0;
+        userAnswers = {};
+        timeLeft = 420;
+
+        document.getElementById('view-dashboard').style.display = 'none';
+        document.getElementById('nav-tabs').style.visibility = 'hidden';
+        document.getElementById('view-test').style.display = 'block';
+        document.getElementById('btn-back').classList.remove('btn-hidden');
+        document.getElementById('test-title').innerText = `Test: Rule ${ruleId}`;
+
+        startTimer();
+        loadQuestion(0);
+    }
+
+    function startTimer() {
+        clearInterval(timerInterval);
+        const disp = document.getElementById('timer');
+        timerInterval = setInterval(() => {
+            if(timeLeft <= 0) { submitTest(); return; }
+            timeLeft--;
+            let m = Math.floor(timeLeft/60).toString().padStart(2,'0');
+            let s = (timeLeft%60).toString().padStart(2,'0');
+            disp.innerText = `${m}:${s}`;
+            if(timeLeft < 60) disp.style.color = 'red'; else disp.style.color = '#1e293b';
+        }, 1000);
+    }
+
+    function loadQuestion(idx) {
+        const qData = questionBank[currentTestId][idx];
+        document.getElementById('q-current').innerText = idx + 1;
+        document.getElementById('q-text').innerText = `Q${idx+1}. ${qData.question}`;
+        
+        const optContainer = document.getElementById('q-options');
+        optContainer.innerHTML = '';
+        
+        qData.options.forEach(opt => {
+            const key = opt.substring(0,3); // (a)
+            const div = document.createElement('div');
+            div.className = `option-card ${userAnswers[idx] === key ? 'selected' : ''}`;
+            div.innerText = opt;
+            div.onclick = () => {
+                userAnswers[idx] = key;
+                loadQuestion(idx);
+            };
+            optContainer.appendChild(div);
+        });
+
+        // Buttons
+        document.getElementById('btn-prev').disabled = (idx === 0);
+        if(idx === 9) {
+            document.getElementById('btn-next').classList.add('hidden');
+            document.getElementById('btn-submit').classList.remove('hidden');
+        } else {
+            document.getElementById('btn-next').classList.remove('hidden');
+            document.getElementById('btn-submit').classList.add('hidden');
+        }
+    }
+
+    function changeQuestion(dir) {
+        currentQIndex += dir;
+        loadQuestion(currentQIndex);
+    }
+
+    function submitTest() {
+        clearInterval(timerInterval);
+        document.getElementById('view-test').style.display = 'none';
+        document.getElementById('view-result').style.display = 'block';
+
+        const questions = questionBank[currentTestId];
+        let correct = 0, wrong = 0, skipped = 0;
+        let html = '';
+
+        questions.forEach((q, i) => {
+            const ans = userAnswers[i];
+            const correctKey = q.correctAnswer;
+            let statusClass = 'skip', statusText = 'Skipped';
+
+            if(ans) {
+                if(ans === correctKey) { correct++; statusClass = 'correct'; statusText = 'Correct'; }
+                else { wrong++; statusClass = 'wrong'; statusText = 'Wrong'; }
+            } else skipped++;
+
+            html += `
+                <div class="analysis-card ${statusClass}">
+                    <span class="badge-res bg-${statusClass}">${statusText}</span>
+                    <div style="font-weight:600; margin-bottom:10px;">Q${i+1}. ${q.question}</div>
+                    <div style="font-size:0.9rem; color:#555;">
+                        Your Answer: <b>${ans || 'None'}</b> <br>
+                        Correct Answer: <b style="color:var(--success)">${q.correctAnswer}</b>
+                    </div>
+                    <div style="background:#f1f5f9; padding:10px; margin-top:10px; border-radius:6px; font-size:0.9rem;">
+                        <b>Explanation:</b> ${q.explanation}
+                    </div>
+                </div>
+            `;
+        });
+
+        const total = (correct * 2) - (wrong * 0.5);
+        document.getElementById('res-score').innerText = total;
+        document.getElementById('res-accuracy').innerText = correct > 0 ? Math.round((correct/(correct+wrong))*100) : 0;
+        document.getElementById('res-analysis').innerHTML = html;
+    }
+
+</script>
+
+</body>
+</html>
